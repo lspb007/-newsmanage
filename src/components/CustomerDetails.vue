@@ -8,8 +8,10 @@
     </span>
     </h1>
     <ul class="list-group"></ul>
-    <li>{{customer.phone}}</li>
-    <li>{{customer.age}}</li>
+    <li>{{customer.type}}</li>
+    <li>{{customer.time}}</li>
+    <li>{{customer.jizhe}}</li>
+    <li>{{customer.description}}</li>
   </div>
 </template>
 
@@ -24,14 +26,14 @@ export default {
     },
     methods:{
              fetchCustomers(id){
-            this.$http.get("http://39.106.142.233:3000/users/"+id).then(function(response){
+            this.$http.get("http://39.106.142.233:3000/news/"+id).then(function(response){
                 console.log(response);
                 this.customer=response.body
             })
         },
         deleteCustomer(id){
           // console.log(id);
-          this.$http.delete("http://39.106.142.233:3000/users/"+id).then(function(response){
+          this.$http.delete("http://39.106.142.233:3000/news/"+id).then(function(response){
             this.$router.push({path:"/",query:{alert:"用户信息删除成功!"}});
           })
         }

@@ -1,22 +1,24 @@
 <template>
   <div class="add container">
-    <h2>添加用户</h2> 
+    <h2>添加文稿</h2> 
     <form v-on:submit="addCustomer">
       <div class="well">
-        <h4>用户信息</h4>
+        <h4>文稿信息</h4>
         <div class="form-group">
-          <label >姓名</label>
+          <label >文稿标题</label>
           <input type="text" class="form-control" placeholder="name" v-model="customer.name">
-            <label >电话</label>
-          <input type="text" class="form-control" placeholder="phone" v-model="customer.phone">
-            <label >年龄</label>
-          <input type="text" class="form-control" placeholder="age" v-model="customer.age">
+            <label >播出形式</label>
+          <input type="text" class="form-control" placeholder="type" v-model="customer.type">
+            <label >时长</label>
+          <input type="text" class="form-control" placeholder="time" v-model="customer.time">
+            <label >记者</label>
+          <input type="text" class="form-control" placeholder="" v-model="customer.jizhe">
         </div>
-        <button type="submit" class="btn btn-primary">添加用户</button>
+        <button type="submit" class="btn btn-primary">添加文稿</button>
       </div>
     </form>
   </div>
-</template>
+</template>jizhe
 
 <script>
 export default {
@@ -36,12 +38,13 @@ export default {
           
           let newCustomer={
             name:this.customer.name,
-            phone:this.customer.phone,
-            age:this.customer.age,
+            type:this.customer.type,
+            time:this.customer.time,
+            jizhe:this.customer.jizhe,
           }
-          this.$http.post("http://39.106.142.233:3000/users",newCustomer).then(function(response){
+          this.$http.post("http://39.106.142.233:3000/news",newCustomer).then(function(response){
             // console.log(response);
-          this.$router.push({path:"/",query:{alert:"用户信息添加成功!"}});
+          this.$router.push({path:"/",query:{alert:"文稿信息添加成功!"}});
           console.log("用户信息添加成功");
           })
         }

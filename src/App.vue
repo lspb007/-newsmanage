@@ -17,7 +17,7 @@
             <li><router-link to="/about">关于</router-link></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><router-link to="/add">添加用户</router-link></li>
+            <li><router-link to="/add">添加文稿</router-link></li>
             
             
           </ul>
