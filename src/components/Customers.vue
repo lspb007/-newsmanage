@@ -1,43 +1,101 @@
 <template>
   <div class="customers container">
       <Alert  v-if="alert" v-bind:message="alert"></Alert>
+
+           
+
+
+
+
     <table class="table table-striped">
         <thead>
             <tr>
+                 <th>序号</th>
                 <th>播出形式</th>
                 <th>文稿标题</th>
                 <th>时长</th>
+                 <th>累计时长</th>
                  <th>记者</th>
                 <th></th>
             </tr>
         </thead>
-        <tbody>
-            <tr v-for="customer in customers" :key="customer.id">
+        <draggable  tag="tbody" @start="onStart" @end="onEnd">
+             
+                 <!-- <draggable v-model="customers" group="customer"> -->
+            <tr v-for="(customer,index) in customers" :key="customer.id">
+                <td>{{index+1}}</td>
                 <td>{{customer.type}}</td>
                 <td>{{customer.name}}</td>
-                <td>{{customer.time}}</td>
+                <td	>{{customer.time}}</td>
+                <td type="time">111</td>
                 <td>{{customer.jizhe}}</td>
                 <td><router-link class="btn btn-default"  v-bind:to="'/customer/'+customer.id">详情</router-link></td>
+                
             </tr>
-        </tbody>
+
+            <!-- </draggable> -->
+        </draggable>
     </table>
   </div>
 </template>
 
 <script>
 import Alert from './Alert'
+import draggable from "vuedraggable"
 export default {
   name: 'customers',
   data: function() {
         return {
             customers:[],
-            alert:""
+            alert:"",
+            i:0,
         };
     },
     methods:{
+        onStart() {
+                    this.drag = true;
+                },
+         onEnd() {
+                    this.drag = false;
+                    //拖拽完成后的顺序
+                    let arr = []
+                    this.customers.forEach((item) => {
+                        arr.push(item.id)
+                    })
+                    console.log(arr)
+                    //拖拽后利用localStorage记录顺序
+                    localStorage.arr = arr;
+                    var localSt = localStorage.arr;//已经存储起来的排序后的id
+                    //如果有localst记录则，按照这个进行排序元素
+                    if (localSt) {
+                        console.log(localSt)
+                        var resArr = localSt.split(',');
+                        var resUl = $('.box>div:eq(0)');
+                        //li 数组
+                        // for (var i = 0; i < resArr.length; i++) {
+                        //     resUl.append($("#" + resArr[i]));
+                        // }
+                        let arrSort = [];//定义一个变量，用来存储排序后id对应的数据
+                        for (let index = 0; index < resArr.length; index++) {//循环已经存储到localStorage中的数组id
+                            const element = resArr[index];
+                            console.log(element)
+                            this.customers.map(item => {//循环已经获取到的数组数据，根据存储到localStorage中的Id匹配到对应的数据
+                                if (item.id == resArr[index]) {
+                                    arrSort.push(item)
+                                }
+                            });
+
+                        }
+                        this.customers = arrSort
+                        console.log(this.customers, '哈哈')
+　　　　　　　　　　　　　　//将排序后的存储到sessioStorage中
+                        // sessionStorage.setItem('customers', JSON.stringify(this.myArray))
+
+                    }
+                },
         fetchCustomers(){
             this.$http.get("http://39.106.142.233:3000/news").then(function(response){
-                // console.log(response);
+                console.log(response);
                 this.customers=response.body
             })
         }
@@ -54,7 +112,8 @@ export default {
     //     this.fetchCustomers();
     // },
     components:{
-        Alert
+        Alert,
+        draggable,
     }  
 }
 </script>

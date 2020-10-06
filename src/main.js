@@ -7,10 +7,13 @@ import About from './components/About'
 import Add from './components/Add'
 import CustomerDetails from './components/CustomerDetails'
 import Edit from './components/Edit'
-
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
 
 
 Vue.config.productionTip = false
+
+Vue.use(Antd);
 
 Vue.use(VueRouter)
 

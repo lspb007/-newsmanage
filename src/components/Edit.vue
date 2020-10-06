@@ -13,6 +13,8 @@
           <input type="text" class="form-control" placeholder="time" v-model="customer.time">
             <label >记者</label>
           <input type="text" class="form-control" placeholder="jizhe" v-model="customer.jizhe">
+           <label >文稿</label>
+          <textarea class="form-control" rows="5" placeholder="description" v-model="customer.description" ></textarea>
         </div>
         <button type="submit" class="btn btn-primary">编辑用户</button>
       </div>
@@ -47,6 +49,7 @@ export default {
             type:this.customer.type,
             time:this.customer.time,
             jizhe:this.customer.jizhe,
+            description:this.customer.description,
           }
           this.$http.put("http://39.106.142.233:3000/news/"+this.$route.params.id,updateCustomer).then(function(response){
             console.log(response);

@@ -10,17 +10,25 @@
             <label >播出形式</label>
           <input type="text" class="form-control" placeholder="type" v-model="customer.type">
             <label >时长</label>
-          <input type="text" class="form-control" placeholder="time" v-model="customer.time">
-            <label >记者</label>
+            <br>
+           <a-time-picker :default-open-value="moment('00:00:00', 'HH:mm:ss')" valueFormat='HH:mm:ss' @change="onChange" v-model="customer.time" />
+              <br>
+          <!-- <input type="text" class="form-control" placeholder="time" v-model="customer.time"> -->
+          <label >记者</label>
           <input type="text" class="form-control" placeholder="" v-model="customer.jizhe">
+          <label >文稿</label>
+          <!-- <input type="text" class="form-control" placeholder="description" v-model="customer.description"> -->
+          <textarea class="form-control" rows="5" placeholder="description" v-model="customer.description" ></textarea>
+          
         </div>
         <button type="submit" class="btn btn-primary">添加文稿</button>
       </div>
     </form>
   </div>
-</template>jizhe
+</template>
 
 <script>
+import moment from 'moment';
 export default {
   name: 'add',
 
@@ -30,6 +38,12 @@ export default {
         };
     },
     methods:{
+       moment,
+      onChange(time, timeString) {
+      console.log(timeString);
+      // customer.time=timeString;
+
+    },
       addCustomer(e){
         // console.log("123");
         if(!this.customer.name){
@@ -41,9 +55,9 @@ export default {
             type:this.customer.type,
             time:this.customer.time,
             jizhe:this.customer.jizhe,
+            description:this.customer.description,
           }
           this.$http.post("http://39.106.142.233:3000/news",newCustomer).then(function(response){
-            // console.log(response);
           this.$router.push({path:"/",query:{alert:"文稿信息添加成功!"}});
           console.log("用户信息添加成功");
           })
@@ -53,7 +67,12 @@ export default {
     }
 
 }
+
+
+
 </script>
+
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

@@ -11,7 +11,7 @@
     <li>{{customer.type}}</li>
     <li>{{customer.time}}</li>
     <li>{{customer.jizhe}}</li>
-    <li>{{customer.description}}</li>
+    <textarea rows="5" placeholder="description" disabled cols="80"  v-model="customer.description "></textarea>
   </div>
 </template>
 
