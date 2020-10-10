@@ -27,7 +27,7 @@
                 <td>{{customer.type}}</td>
                 <td>{{customer.name}}</td>
                 <td	>{{customer.time}}</td>
-                <td type="time">111</td>
+                <td >{{customer.gtime}}</td>
                 <td>{{customer.jizhe}}</td>
                 <td><router-link class="btn btn-default"  v-bind:to="'/customer/'+customer.id">详情</router-link></td>
                 
@@ -42,6 +42,7 @@
 <script>
 import Alert from './Alert'
 import draggable from "vuedraggable"
+import Vue from 'vue'
 export default {
   name: 'customers',
   data: function() {
@@ -62,13 +63,13 @@ export default {
                     this.customers.forEach((item) => {
                         arr.push(item.id)
                     })
-                    console.log(arr)
+                    // console.log(arr)
                     //拖拽后利用localStorage记录顺序
                     localStorage.arr = arr;
                     var localSt = localStorage.arr;//已经存储起来的排序后的id
                     //如果有localst记录则，按照这个进行排序元素
                     if (localSt) {
-                        console.log(localSt)
+                        // console.log(localSt)
                         var resArr = localSt.split(',');
                         var resUl = $('.box>div:eq(0)');
                         //li 数组
@@ -78,7 +79,7 @@ export default {
                         let arrSort = [];//定义一个变量，用来存储排序后id对应的数据
                         for (let index = 0; index < resArr.length; index++) {//循环已经存储到localStorage中的数组id
                             const element = resArr[index];
-                            console.log(element)
+                            // console.log(index)
                             this.customers.map(item => {//循环已经获取到的数组数据，根据存储到localStorage中的Id匹配到对应的数据
                                 if (item.id == resArr[index]) {
                                     arrSort.push(item)
@@ -93,10 +94,30 @@ export default {
 
                     }
                 },
+        sumCustomers(){
+
+        },
         fetchCustomers(){
             this.$http.get("http://39.106.142.233:3000/news").then(function(response){
-                console.log(response);
-                this.customers=response.body
+                // console.log(response);
+                this.customers=response.body;
+                let times=0;
+                // console.log(this.customers.length);
+                for(var item=0;item<this.customers.length;item++){  //遍历对象数组，item表示某个具体的对象
+                     
+                     Vue.set(this.customers[item],'gtime',this.customers[item].time+times)
+                     times=this.customers[item].gtime
+                    // this.customers[item].gtime=times+this.customers[item].gtime
+                    
+                     console.log(this.customers[item].time,"---",this.customers[item].gtime,"---",times)
+                    // this.customers[item].time=this.customers[item].time+2
+	                  for(var i in this.customers[item]){
+                              //使用for in 遍历对象属性
+                             
+		                    //  console.log("1")  //objectList[item][i]表示某个对象的某个
+									       
+	}
+}
             })
         }
     },
@@ -105,7 +126,7 @@ export default {
             this.alert =this.$route.query.alert;
             
         }
-       
+
         this.fetchCustomers();
     },
     // updated(){

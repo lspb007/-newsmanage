@@ -49,11 +49,15 @@ export default {
         if(!this.customer.name){
           console.log("请添加对应的信息");
         }else{
-          
+          let s='';
+          let hour = this.customer.time.split(':')[0];
+          let min = this.customer.time.split(':')[1];
+          let sec = this.customer.time.split(':')[2];
+          s = Number(hour*3600) + Number(min*60) + Number(sec);
           let newCustomer={
             name:this.customer.name,
             type:this.customer.type,
-            time:this.customer.time,
+            time:s,
             jizhe:this.customer.jizhe,
             description:this.customer.description,
           }
