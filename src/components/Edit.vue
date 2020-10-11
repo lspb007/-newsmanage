@@ -10,7 +10,9 @@
             <label >播出形式</label>
           <input type="text" class="form-control" placeholder="type" v-model="customer.type">
             <label >时长</label>
+             <br>
           <a-time-picker :default-open-value="moment('00:00:00', 'HH:mm:ss')" valueFormat='HH:mm:ss' @change="onChange" v-model="customer.time" />
+           <br>          <!-- v-model="customer.time"  -->
             <label >记者</label>
           <input type="text" class="form-control" placeholder="jizhe" v-model="customer.jizhe">
            <label >文稿</label>
@@ -34,6 +36,26 @@ export default {
     },
     methods:{
       moment,
+      sec_to_timef(s) {
+    var t;
+    if(s > -1){
+        var hour = Math.floor(s/3600);
+        var min = Math.floor(s/60) % 60;
+        var sec = s % 60;
+        if(hour < 10) {
+            t = '0'+ hour + ":";
+        } else {
+            t = hour + ":";
+        }
+
+        if(min < 10){t += "0";}
+        t += min + ":";
+        if(sec < 10){t += "0";}
+        t += sec.toFixed(0);
+    }
+    // console.log(t);
+    return t;
+},
        onChange(time, timeString) {
       console.log(timeString);
       },
@@ -42,6 +64,28 @@ export default {
         this.$http.get("http://39.106.142.233:3000/news/"+id).then(function(response){
           // console.log(response);
           this.customer= response.body;
+          // this.customer.time=moment(sec_to_timef(this.customer.time));
+          console.log(this.customer.time);
+                  var t;
+                  let s =this.customer.time
+              if(s > -1){
+                  var hour = Math.floor(s/3600);
+                  var min = Math.floor(s/60) % 60;
+                  var sec = s % 60;
+                  if(hour < 10) {
+                      t = '0'+ hour + ":";
+                  } else {
+                      t = hour + ":";
+                  }
+
+                  if(min < 10){t += "0";}
+                  t += min + ":";
+                  if(sec < 10){t += "0";}
+                  t += sec.toFixed(0);
+              }
+              // console.log(t);
+              
+          this.customer.time= moment(t, 'HH:mm:ss')
         })
       },
       updateCustomer(e){
@@ -71,6 +115,7 @@ export default {
           e.preventDefault();
       }
     },
+    
   created(){
     this.fetchCustomer(this.$route.params.id);
   }
