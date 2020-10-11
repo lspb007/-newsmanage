@@ -9,7 +9,10 @@ import CustomerDetails from './components/CustomerDetails'
 import Edit from './components/Edit'
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
-
+import * as filters from './filters/index'
+Object.keys(filters).forEach(key=>{
+  Vue.filter(key,filters[key])
+})
 
 Vue.config.productionTip = false
 

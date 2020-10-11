@@ -26,8 +26,8 @@
                 <td>{{index+1}}</td>
                 <td>{{customer.type}}</td>
                 <td>{{customer.name}}</td>
-                <td	>{{customer.time}}</td>
-                <td >{{customer.gtime}}</td>
+                <td	>{{customer.time|sec_to_time}}</td>
+                <td >{{customer.gtime|sec_to_time}}</td>
                 <td>{{customer.jizhe}}</td>
                 <td><router-link class="btn btn-default"  v-bind:to="'/customer/'+customer.id">详情</router-link></td>
                 
