@@ -19,11 +19,11 @@
                 <th></th>
             </tr>
         </thead>
-        <draggable  tag="tbody" @start="onStart" @end="onEnd">
+        <draggable  v-model="customers" tag="tbody" @start="onStart" @end="onEnd">
              
                  <!-- <draggable v-model="customers" group="customer"> -->
-            <tr v-for="(customer,index) in customers" :key="customer.id">
-                <td>{{index+1}}</td>
+            <tr v-for="(customer,i) in customers" :key="customer.id">
+                <td>{{i+1}}</td>
                 <td>{{customer.type}}</td>
                 <td>{{customer.name}}</td>
                 <td	>{{customer.time|sec_to_time}}</td>
@@ -83,12 +83,24 @@ export default {
                             this.customers.map(item => {//循环已经获取到的数组数据，根据存储到localStorage中的Id匹配到对应的数据
                                 if (item.id == resArr[index]) {
                                     arrSort.push(item)
+                                    console.log(item)
                                 }
                             });
 
                         }
                         this.customers = arrSort
-                        console.log(this.customers, '哈哈')
+                        let times=0;
+                        for(var item=0;item<this.customers.length;item++){  //遍历对象数组，item表示某个具体的对象
+                     
+                     Vue.set(this.customers[item],'gtime',this.customers[item].time+times)
+                     times=this.customers[item].gtime
+                    // this.customers[item].gtime=times+this.customers[item].gtime
+                    
+                     console.log(this.customers[item].time,"---",this.customers[item].gtime,"---",times)
+                    // this.customers[item].time=this.customers[item].time+2
+                     }
+                        console.log(this.customers[0], '哈哈')
+                       
 　　　　　　　　　　　　　　//将排序后的存储到sessioStorage中
                         // sessionStorage.setItem('customers', JSON.stringify(this.myArray))
 
@@ -111,12 +123,7 @@ export default {
                     
                      console.log(this.customers[item].time,"---",this.customers[item].gtime,"---",times)
                     // this.customers[item].time=this.customers[item].time+2
-	                  for(var i in this.customers[item]){
-                              //使用for in 遍历对象属性
-                             
-		                    //  console.log("1")  //objectList[item][i]表示某个对象的某个
-									       
-	}
+	                 
 }
             })
         }
